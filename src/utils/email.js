@@ -195,8 +195,8 @@ class EmailUtils {
     try {
       const result = await this.transporter.sendMail(mailOptions);
       
-      // Log preview URL for development
-      if (process.env.NODE_ENV !== 'production') {
+      // Log preview URL for development (but not during tests)
+      if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(result));
       }
       
@@ -206,7 +206,10 @@ class EmailUtils {
         previewUrl: nodemailer.getTestMessageUrl(result)
       };
     } catch (error) {
-      console.error('Email sending failed:', error);
+      // Only log errors if not in test environment
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('Email sending failed:', error);
+      }
       return {
         success: false,
         error: error.message
@@ -223,7 +226,10 @@ class EmailUtils {
       await this.transporter.verify();
       return true;
     } catch (error) {
-      console.error('Email transporter verification failed:', error);
+      // Only log errors if not in test environment
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('Email transporter verification failed:', error);
+      }
       return false;
     }
   }

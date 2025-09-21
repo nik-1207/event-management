@@ -62,10 +62,12 @@ app.use(globalRateLimit);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Request logging middleware
+// Request logging middleware (exclude during tests)
 app.use((req, res, next) => {
-  const timestamp = new Date().toISOString();
-  console.log(`${timestamp} - ${req.method} ${req.path} - IP: ${req.ip}`);
+  if (process.env.NODE_ENV !== 'test') {
+    const timestamp = new Date().toISOString();
+    console.log(`${timestamp} - ${req.method} ${req.path} - IP: ${req.ip}`);
+  }
   next();
 });
 

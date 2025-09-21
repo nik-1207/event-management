@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "jest tests/basic.test.js",
-    "test:all": "jest",
+    "test": "jest",
     "verify": "node verify.js",
     "test-api": "node test-api.js"
   },
