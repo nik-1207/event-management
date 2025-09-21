@@ -1,11 +1,11 @@
-const { v4: uuidv4 } = require('uuid');
+const uuid = require('uuid');
 
 /**
  * User model for the virtual event management platform
  */
 class User {
   constructor({ email, password, firstName, lastName, role = 'attendee' }) {
-    this.id = uuidv4();
+    this.id = uuid.v4();
     this.email = email;
     this.password = password; // Will be hashed before storing
     this.firstName = firstName;

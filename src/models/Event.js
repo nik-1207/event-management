@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+const uuid = require('uuid');
 
 /**
  * Event model for the virtual event management platform
@@ -16,7 +16,7 @@ class Event {
     category = 'General',
     isPublic = true 
   }) {
-    this.id = uuidv4();
+    this.id = uuid.v4();
     this.title = title;
     this.description = description;
     this.date = new Date(date);

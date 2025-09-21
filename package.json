@@ -5,16 +5,29 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "jest"
+    "test": "jest tests/basic.test.js",
+    "test:all": "jest",
+    "verify": "node verify.js",
+    "test-api": "node test-api.js"
   },
-  "keywords": ["event", "management", "backend", "api"],
+  "keywords": [
+    "event",
+    "management",
+    "backend",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
   "description": "Virtual Event Management Platform Backend API",
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testTimeout": 10000,
+    "transformIgnorePatterns": [
+      "node_modules/(?!(uuid)/)"
+    ]
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
