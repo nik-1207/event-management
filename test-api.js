@@ -6,6 +6,9 @@ async function testAPI() {
   try {
     console.log('🧪 Testing Virtual Event Management API...\n');
     
+    // Generate unique timestamp for email addresses
+    const timestamp = Date.now();
+    
     // Test 1: Health Check
     console.log('1. Testing health endpoint...');
     const healthResponse = await axios.get(`${BASE_URL}/health`);
@@ -14,7 +17,7 @@ async function testAPI() {
     // Test 2: Register Organizer
     console.log('\n2. Registering organizer...');
     const organizerData = {
-      email: 'organizer@test.com',
+      email: `organizer-${timestamp}@test.com`,
       password: 'password123',
       firstName: 'Jane',
       lastName: 'Organizer',
@@ -28,7 +31,7 @@ async function testAPI() {
     // Test 3: Register Attendee
     console.log('\n3. Registering attendee...');
     const attendeeData = {
-      email: 'attendee@test.com',
+      email: `attendee-${timestamp}@test.com`,
       password: 'password123',
       firstName: 'John',
       lastName: 'Attendee',

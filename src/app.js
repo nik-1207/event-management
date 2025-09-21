@@ -187,47 +187,64 @@ app.use((error, req, res, next) => {
  */
 process.on('SIGTERM', () => {
   console.log('SIGTERM received. Shutting down gracefully...');
-  server.close(() => {
-    console.log('Server closed.');
+  if (server) {
+    server.close(() => {
+      console.log('Server closed.');
+      process.exit(0);
+    });
+  } else {
     process.exit(0);
-  });
+  }
 });
 
 process.on('SIGINT', () => {
   console.log('SIGINT received. Shutting down gracefully...');
-  server.close(() => {
-    console.log('Server closed.');
+  if (server) {
+    server.close(() => {
+      console.log('Server closed.');
+      process.exit(0);
+    });
+  } else {
     process.exit(0);
-  });
+  }
 });
 
 /**
- * Start Server
+ * Start Server (only if this file is run directly, not when required by tests)
  */
-const server = app.listen(PORT, async () => {
-  console.log(`🚀 Event Management API Server running on port ${PORT}`);
-  console.log(`📝 API Documentation: http://localhost:${PORT}`);
-  console.log(`🔍 Health Check: http://localhost:${PORT}/health`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  
-  // Verify email configuration
-  try {
-    const emailVerified = await emailUtils.verifyTransporter();
-    console.log(`📧 Email service: ${emailVerified ? '✅ Connected' : '❌ Not configured'}`);
-  } catch (error) {
-    console.log('📧 Email service: ❌ Configuration error');
-  }
-  
-  console.log('----------------------------------------');
-});
+let server;
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  // Close server & exit process
-  server.close(() => {
-    process.exit(1);
+// Only start server if this file is executed directly (not required by tests)
+if (require.main === module) {
+  server = app.listen(PORT, async () => {
+    console.log(`🚀 Event Management API Server running on port ${PORT}`);
+    console.log(`📝 API Documentation: http://localhost:${PORT}`);
+    console.log(`🔍 Health Check: http://localhost:${PORT}/health`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    
+    // Verify email configuration
+    try {
+      const emailVerified = await emailUtils.verifyTransporter();
+      console.log(`📧 Email service: ${emailVerified ? '✅ Connected' : '❌ Not configured'}`);
+    } catch (error) {
+      console.log('📧 Email service: ❌ Configuration error');
+    }
+    
+    console.log('----------------------------------------');
   });
-});
+
+  // Handle unhandled promise rejections
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Close server & exit process
+    if (server) {
+      server.close(() => {
+        process.exit(1);
+      });
+    } else {
+      process.exit(1);
+    }
+  });
+}
 
 module.exports = app;

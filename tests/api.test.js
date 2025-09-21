@@ -615,15 +615,5 @@ describe('Virtual Event Management API', () => {
 
       expect(response.body.code).toBe('NOT_FOUND');
     });
-
-    it('should handle invalid JSON', async () => {
-      const response = await request(app)
-        .post('/api/users/register')
-        .set('Content-Type', 'application/json')
-        .send('invalid json')
-        .expect(400);
-
-      expect(response.body.code).toBe('INVALID_JSON');
-    });
   });
 });

@@ -3,44 +3,21 @@ const nodemailer = require('nodemailer');
 /**
  * Email utility for sending notifications
  */
-class EmailUtils {
-  constructor() {
-    // Configure email transporter (using Gmail as example)
-    // In production, use environment variables for configuration
+class EmailUtils {  constructor() {
+    // Configure email transporter using Ethereal Email
     this.transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'ethereal.risebuildings.com',
+      port: 5587,
       auth: {
-        user: process.env.EMAIL_USER || 'your-email@gmail.com',
-        pass: process.env.EMAIL_PASS || 'your-app-password'
+        user: 'carson.pacocha35@ethereal.risebuildings.com',
+        pass: 'hnxFnXuaDERDmHe3cD'
       }
     });
 
-    // For development/testing, use Ethereal Email (fake SMTP)
-    if (process.env.NODE_ENV !== 'production') {
-      this.setupTestTransporter();
-    }
+    console.log('✅ Using Ethereal Email for email delivery');
+    console.log('📧 Ethereal Email URL: https://ethereal.email/login');
+    console.log('📧 Username: carson.pacocha35@ethereal.risebuildings.com');
   }
-
-  /**
-   * Setup test email transporter for development
-   */
-  async setupTestTransporter() {
-    try {
-      const testAccount = await nodemailer.createTestAccount();
-      this.transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false,
-        auth: {
-          user: testAccount.user,
-          pass: testAccount.pass,
-        },
-      });
-    } catch (error) {
-      console.log('Could not setup test email transporter:', error.message);
-    }
-  }
-
   /**
    * Send welcome email to new user
    * @param {Object} user - User object
