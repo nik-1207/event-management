@@ -444,21 +444,4 @@ This project is licensed under the ISC License.
    - Data is stored in memory and will be lost on server restart
    - This is by design for development/testing purposes
 
-### Debug Mode
 
-Set `NODE_ENV=development` to enable:
-- Detailed error stack traces
-- Request logging
-- Email preview URLs
-
-## 📞 Support
-
-For questions, issues, or contributions:
-
-- **Email**: support@eventmanagement.com
-- **GitHub Issues**: [Create an issue](https://github.com/your-username/event-management-api/issues)
-- **Documentation**: This README and inline code comments
-
----
-
-**Built with ❤️ using Node.js, Express.js, and modern JavaScript practices.**
